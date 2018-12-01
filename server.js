@@ -5,6 +5,8 @@ var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://127.0.0.1:27017';
 var app = express();
+//dest是设置图片文件的临时目录
+//var upload = multer({ dest: 'C:\tep' })
 
 app.listen(3000);
 //处理POST请求的请求体
@@ -245,6 +247,7 @@ app.post('/api/addphone', function (req, res) {
     var brand = req.body.brand;
     var relprice = req.body.relprice;
     var lowprice = req.body.lowprice;
+    var image = req.body.image;
     var results = {};
     console.log(111)
     MongoClient.connect(url, { useNewUrlParser: true }, function (err, client) {
@@ -259,12 +262,14 @@ app.post('/api/addphone', function (req, res) {
             name: name,
             brand: brand,
             relprice: relprice,
-            lowprice: lowprice
+            lowprice: lowprice,
+            image: image
         }, function (err) {
             if (err) {
                 results.code = -1;
                 results.msg = '用户名或昵称已注册';
             } else {
+                console.log(image)
                 results.code = 0;
                 results.msg = '注册成功';
             }
